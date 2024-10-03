@@ -1,14 +1,15 @@
 variable "name" {
   description = "name of your infra"
-  type = string
+  type        = string
 }
 
 variable "region" {
   description = "AWS region"
   type        = string
 }
-
-
+variable "environment" {
+  type = string
+}
 variable "profile" {
   description = "AWS profile name as set in the shared credentials file"
   type        = string
@@ -30,7 +31,7 @@ variable "terraform_backend_config_file_path" {
 variable "terraform_backend_config_file_name" {
   description = "Filename for the terraform backend config"
   type        = string
-  default     = "backend.hcl"
+  default     = "backend.json"
 }
 
 variable "acl" {
