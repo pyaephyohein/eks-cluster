@@ -1,20 +1,13 @@
 locals {
-  backend_name = "${var.name}-${var.environment}-terraform"
+  backend_name = "${var.name}"
 }
 terraform {
   backend "s3"{
-    key = "eks.tfstate"
+    key = "vpc.tfstate"
     bucket = "${local.backend_name}-state"
   }
 }
-data "terraform_remote_state" "vpc" {
-  backend = "s3"
-  config = {
-    region = var.region
-    bucket = "${local.backend_name}-state"
-    key    = "vpc.tfstate"
-  }
-}
+
 # resource "aws_s3_bucket_object" "kubeconfig" {
 #   depends_on = [local_file.kubeconfig]
 #   bucket = "${local.backend_name}-state"

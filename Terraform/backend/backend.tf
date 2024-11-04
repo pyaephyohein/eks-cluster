@@ -6,7 +6,7 @@ terraform {
 }
 locals {
   prevent_unencrypted_uploads = var.prevent_unencrypted_uploads && var.enable_server_side_encryption ? true : false
-  backend_name                = "${var.name}"
+  backend_name                = "${var.name}-${var.environment}-terraform"
   terraform_backend_config_file = format(
     "%s/%s",
     var.terraform_backend_config_file_path,
@@ -92,7 +92,7 @@ resource "aws_s3_bucket" "default" {
   }
 
   tags = {
-    
+
   }
 }
 
@@ -130,7 +130,7 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
   }
 
   tags = {
-    Name   = "${var.name}-encrypted"
+    Name = "${var.name}-encrypted"
   }
 }
 
@@ -156,12 +156,12 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
   }
 
   tags = {
-    Name   = "${var.name}-unencrypted"
+    Name = "${var.name}-unencrypted"
   }
 }
 
 data "template_file" "terraform_backend_config" {
-  template = file("${path.module}/templates/backend.hcl.tpl")
+  template = file("${path.module}/templates/backend.json.tpl")
 
   vars = {
     region = var.region
